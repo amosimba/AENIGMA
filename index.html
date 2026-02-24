@@ -155,7 +155,28 @@ login();
 });
 
 
-</script>
+let users = {
+    "Ischia": {password: "16082023", page: "secret1.html"},
+    "user2": {password: "pass2", page: "secret2.html"}
+<div id="errorText" class="error">
+  Access denied
+</div>
+function login() {
+    let name = document.getElementById("name").value.toLowerCase();
+    let password = document.getElementById("password").value;
+
+    if(users[name] && users[name].password === password){
+        window.location.href = users[name].page;
+    } else {
+        document.getElementById("errorText").classList.add("showError");
+    }
+}
+
+document.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        login();
+    }
+});
 
 </body>
 </html>
