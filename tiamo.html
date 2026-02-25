@@ -1,0 +1,153 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf610
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+<meta charset="UTF-8">\
+<meta name="viewport" content="width=device-width, initial-scale=1.0">\
+<title>Login Quiz</title>\
+<style>\
+body \{\
+    margin: 0;\
+    background-color: black;\
+    color: white;\
+    font-family: Arial, sans-serif;\
+\}\
+.container \{\
+    text-align: center;\
+    padding: 50px;\
+\}\
+input \{\
+    display: block;\
+    margin: 15px auto;\
+    padding: 10px;\
+    width: 300px;\
+    border: 1px solid white;\
+    background: black;\
+    color: white;\
+    font-size: 16px;\
+\}\
+input:disabled \{\
+    opacity: 0.7;\
+\}\
+.question-container \{\
+    margin-top: 20px;\
+    text-align: left;\
+    max-width: 600px;\
+    margin-left: auto;\
+    margin-right: auto;\
+\}\
+.question \{\
+    margin: 15px 0 5px 0;\
+\}\
+.answer \{\
+    width: 100%;\
+    padding: 8px;\
+    font-size: 16px;\
+    border: 1px solid white;\
+    background: black;\
+    color: white;\
+\}\
+.green \{ background: green; color: white; border: 1px solid green;\}\
+.red \{ background: red; color: white; border: 1px solid red;\}\
+#finalMessage \{\
+    margin-top: 30px;\
+    font-size: 20px;\
+    font-weight: bold;\
+\}\
+</style>\
+</head>\
+<body>\
+\
+<div class="container" id="loginPage">\
+    <h1>Who are you?</h1>\
+    <input type="text" id="username" placeholder="Username">\
+    <input type="password" id="password" placeholder="Password">\
+    <div id="errorText" style="color:red; display:none;">Access denied</div>\
+</div>\
+\
+<div class="container" id="quizPage" style="display:none;">\
+    <h2>Access granted</h2>\
+    <div class="question-container">\
+        <div class="question">1. Qui mi guardavi da lontano mentre avevo il petto tutto rosso...</div>\
+        <input type="text" class="answer" data-correct="Sant'angelo">\
+\
+        <div class="question">2. Noi ci abboffiamo al panificio migliore di...</div>\
+        <input type="text" class="answer" data-correct="Agerola">\
+\
+        <div class="question">3. Qual'\'e8 la via della villa "il Capriccio"?</div>\
+        <input type="text" class="answer" data-correct="Lacco fango">\
+\
+        <div class="question">4. Congiunzione verbale per eccellenza</div>\
+        <input type="text" class="answer" data-correct="e">\
+\
+        <div class="question">5. Calcola: (tan(\uc0\u960 /4)+sin(\u960 /2)+cos(\u960 /3))\'d77.2</div>\
+        <input type="text" class="answer" data-correct="18">\
+\
+        <div class="question">6. Il concerto di Geolier pi\'f9 bello mai fatto fu al...</div>\
+        <input type="text" class="answer" data-correct="Negombo">\
+\
+        <div class="question">7. Calcola: lim <span style="font-size:12px">x
+\f1 \uc0\u8594 
+\f0 2</span> (x\'b2 + 11)</div>\
+        <input type="text" class="answer" data-correct="15">\
+    </div>\
+    <div id="finalMessage" style="display:none;">\
+        Leggi la prima lettera di ogni risposta: dove andiamo? : a che lettera corrisponde dell'alfabeto?\
+    </div>\
+</div>\
+\
+<script>\
+// utenti\
+const users = \{\
+    "ischia": "16082023"\
+\};\
+\
+// login\
+function checkLogin() \{\
+    const username = document.getElementById("username").value.toLowerCase();\
+    const password = document.getElementById("password").value;\
+    if(users[username] && users[username] === password)\{\
+        document.getElementById("loginPage").style.display = "none";\
+        document.getElementById("quizPage").style.display = "block";\
+    \} else \{\
+        document.getElementById("errorText").style.display = "block";\
+    \}\
+\}\
+\
+document.getElementById("username").addEventListener("keydown", e=>\{\
+    if(e.key==="Enter") checkLogin();\
+\});\
+document.getElementById("password").addEventListener("keydown", e=>\{\
+    if(e.key==="Enter") checkLogin();\
+\});\
+\
+// risposte quiz\
+const answers = document.querySelectorAll(".answer");\
+answers.forEach(input=>\{\
+    input.addEventListener("change", ()=>\{\
+        if(input.value.trim().toLowerCase() === input.dataset.correct.toLowerCase())\{\
+            input.classList.add("green");\
+            input.disabled = true;\
+        \} else \{\
+            input.classList.add("red");\
+        \}\
+        checkAllCorrect();\
+    \});\
+\});\
+\
+function checkAllCorrect()\{\
+    const allCorrect = Array.from(answers).every(input=>input.disabled);\
+    if(allCorrect)\{\
+        document.getElementById("finalMessage").style.display="block";\
+    \}\
+\}\
+</script>\
+\
+</body>\
+</html>}
