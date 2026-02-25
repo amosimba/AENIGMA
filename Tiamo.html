@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Who are you?</title>
+<style>
+body{
+    background:black;
+    color:white;
+    font-family: monospace;
+    text-align:center;
+    margin:0;
+}
+.center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:90%;
+}
+h1{
+    font-size:35px;
+}
+input{
+    background:white;
+    color:black;
+    border:none;
+    padding:10px;
+    margin:10px;
+    width:260px;
+    font-size:18px;
+}
+.hidden{
+    display:none;
+}
+.correct{
+    background:green !important;
+    color:white;
+}
+.wrong{
+    background:red !important;
+    color:white;
+}
+.barContainer{
+    width:300px;
+    height:20px;
+    border:2px solid white;
+    margin:auto;
+    margin-top:20px;
+}
+.bar{
+    height:100%;
+    width:0%;
+    background:white;
+}
+.question{
+    margin-top:40px;
+}
+.symbol{
+    font-size:45px;
+    margin:10px;
+    display:none;
+}
+.number{
+    font-size:20px;
+    margin-bottom:20px;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="center">
+<h1>Who are you?</h1>
+<input id="user" placeholder="Name"><br>
+<input id="pass" placeholder="Password" type="password">
+<p id="denied" class="hidden" style="color:red;">ACCESS DENIED</p>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="center hidden">
+<h1>Loading...</h1>
+<div class="barContainer">
+<div id="bar" class="bar"></div>
+</div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="questions" class="hidden">
+
+<div class="question">
+<p>1. Qui mi guardavi da lontano mentre avevo il petto tutto rosso...</p>
+<input id="q1">
+</div>
+
+<div class="question">
+<p>2. Noi ci abboffiamo al panificio migliore di...</p>
+<input id="q2">
+</div>
+
+<div class="question">
+<p>3. Qual'è la via della villa "il Capriccio"?</p>
+<input id="q3">
+</div>
+
+<div class="question">
+<p>4. Congiunzione verbale per eccellenza</p>
+<input id="q4">
+</div>
+
+<div class="question">
+<p>5. Calcola:</p>
+<p>lim (x²+11)</p>
+<p>x → 2</p>
+<input id="q5">
+</div>
+
+<div class="question">
+<p>6. Il concerto di geolier più bello mai fatto fu al...</p>
+<input id="q6">
+</div>
+
+<div class="question">
+<p>7. (tan(π/4)+sin(π/2)+cos(π/3))×7.2</p>
+<p>a che lettera corrisponde dell'alfabeto?</p>
+<input id="q7">
+</div>
+
+<div class="question">
+<p>Leggi la prima lettera di ogni risposta: dove andiamo?</p>
+<input id="finalAnswer">
+</div>
+
+</div>
+
+<!-- FINAL LOADING -->
+<div id="finalLoading" class="center hidden">
+<h1>Loading...</h1>
+<div class="barContainer">
+<div id="bar2" class="bar"></div>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="center hidden">
+<h1 id="message1">prepara le valige per SALERNO!!!!</h1>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="center hidden">
+<h1>CIASCUNA ICONA HA IL SUO VALORE: TROVA LE COORDINATE</h1>
+<div id="symbolsArea" style="margin-top:40px;">
+<div class="symbol">♥<div class="number">43</div></div>
+<div class="symbol">♠<div class="number">46</div></div>
+<div class="symbol">♦<div class="number">11</div></div>
+<div class="symbol">🐇<div class="number">15</div></div>
+<div class="symbol">👁<div class="number">3</div></div>
+<div class="symbol">★<div class="number">9</div></div>
+<div class="symbol">☾<div class="number">9</div></div>
+<div class="symbol">✦<div class="number">0</div></div>
+<div class="symbol">✿<div class="number">1</div></div>
+<div class="symbol">⚑<div class="number">0</div></div>
+</div>
+</div>
+
+<script>
+// ELEMENTI PRINCIPALI
+const login = document.getElementById("login");
+const loading = document.getElementById("loading");
+const questions = document.getElementById("questions");
+const finalLoading = document.getElementById("finalLoading");
+const page2 = document.getElementById("page2");
+const page3 = document.getElementById("page3");
+const finalAnswer = document.getElementById("finalAnswer");
+const bar2 = document.getElementById("bar2");
+const message1 = document.getElementById("message1");
+
+// CREDENZIALI
+const USER="Ischia";
+const PASS="16082023";
+const solutions={
+q1:"sant'angelo",
+q2:"agerola",
+q3:"lacco fango",
+q4:"e",
+q5:"r",
+q6:"negombo",
+q7:"o"
+};
+
+// LOGIN CON ENTER
+document.addEventListener("keydown", function(e){
+    if(e.key === "Enter" && !login.classList.contains("hidden")){
+        loginFunction();
+    }
+});
+
+// LOGIN FUNCTION
+function loginFunction(){
+    let u = document.getElementById("user").value.trim();
+    let p = document.getElementById("pass").value.trim();
+
+    if(u === USER && p === PASS){
+        login.style.display = "none";
+        loading.classList.remove("hidden");
+        loadBar();
+    } else {
+        document.getElementById("denied").classList.remove("hidden");
+    }
+}
+
+// LOADING BAR
+function loadBar(){
+    let bar=document.getElementById("bar");
+    let width=0;
+    let interval=setInterval(function(){
+        width++;
+        bar.style.width=width+"%";
+        if(width>=100){
+            clearInterval(interval);
+            loading.style.display="none";
+            questions.classList.remove("hidden");
+        }
+    },25);
+}
+
+// DOMANDE
+let inputs=document.querySelectorAll("#questions input");
+inputs.forEach(i=>{ i.addEventListener("input",checkQuestions); });
+function checkQuestions(){
+    for(let key in solutions){
+        let box=document.getElementById(key);
+        if(box.disabled) continue;
+        let value=box.value.toLowerCase().trim();
+        if(value===solutions[key]){
+            box.classList.remove("wrong");
+            box.classList.add("correct");
+            box.disabled=true;
+        }else{
+            box.classList.remove("correct");
+            box.classList.add("wrong");
+        }
+    }
+}
+
+// RISPOSTA FINALE SALERNO
+finalAnswer.addEventListener("input",checkFinal);
+function checkFinal(){
+    let v=finalAnswer.value.toLowerCase().trim();
+    if(v==="salerno"){
+        finalAnswer.classList.add("correct");
+        finalAnswer.disabled=true;
+        startFinal();
+    }else{
+        finalAnswer.classList.add("wrong");
+    }
+}
+
+// FINAL LOADING SCREEN
+function startFinal(){
+    questions.style.display="none";
+    finalLoading.classList.remove("hidden");
+    let width=0;
+    let interval=setInterval(function(){
+        width++;
+        bar2.style.width=width+"%";
+        if(width>=100){
+            clearInterval(interval);
+            showPage2();
+        }
+    },25);
+}
+
+// PAGE 2
+function showPage2(){
+    finalLoading.style.display = "none";
+    page2.classList.remove("hidden");
+
+    // Messaggio romantico dopo 5 sec
+    setTimeout(function(){
+        message1.innerHTML = "No dai, non mi spingevo a così poco per una donna meravigliosa come te... Ti meriti tanto, adesso sono serio.";
+    },5000);
+
+    // Dopo altri 5 sec passa a pagina 3
+    setTimeout(function(){
+        page2.style.display = "none";
+        page3.classList.remove("hidden");
+
+        // Mostra simboli dopo 5 sec
+        setTimeout(showSymbols,2000);
+    },10000);
+}
+
+// SIMBOLI UNO ALLA VOLTA
+function showSymbols(){
+    let symbols=document.querySelectorAll(".symbol");
+    let i=0;
+    let interval=setInterval(function(){
+        symbols[i].style.display="inline-block";
+        i++;
+        if(i>=symbols.length){ clearInterval(interval); }
+    },2000);
+}
+</script>
+</body>
+</html>
